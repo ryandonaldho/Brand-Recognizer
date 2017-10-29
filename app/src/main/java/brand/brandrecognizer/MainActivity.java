@@ -1,6 +1,7 @@
 package brand.brandrecognizer;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -30,9 +32,9 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
-import com.google.api.services.vision.v1.model.ImageProperties;
-import com.google.api.services.vision.v1.model.SafeSearchAnnotation;
 import com.google.api.services.vision.v1.model.WebDetection;
+import com.google.api.services.vision.v1.model.WebEntity;
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -40,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.R.attr.bitmap;
+import static android.R.id.message;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,8 +58,11 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageView;
 
     TextView resultView;
+    TextView webSearchView;
+
     private Bitmap bitmap;
     private Feature feature;
+    private Feature feature2;
 
 
 
@@ -67,17 +73,30 @@ public class MainActivity extends AppCompatActivity {
 
         feature = new Feature();
         feature.setType("LOGO_DETECTION");
+        //feature.setType("WEB_DETECTION");
         feature.setMaxResults(5);
+        feature2 = new Feature();
+        feature2.setType("WEB_DETECTION");
+        feature2.setMaxResults(5);
 
         takePicture = (Button) findViewById(R.id.take_picture);
         imageView = (ImageView) findViewById(R.id.imageView);
 
         resultView = (TextView) findViewById(R.id.textView);
 
+        getGallery = (Button) findViewById(R.id.gallery);
+
         takePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 takePictureFromCamera();
+            }
+        });
+
+        getGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getImageFromPhone();
             }
         });
 
@@ -111,6 +130,11 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, CAMERA_REQUEST_CODE);
     }
 
+    public void getImageFromPhone(){
+        Intent gallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery,103);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
@@ -121,9 +145,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void callCloudVisionAPI(Bitmap bitmap, Feature feature) {
+    private void callCloudVisionAPI(Bitmap bitmap, final Feature feature) {
         List<Feature> featureList = new ArrayList<>();
         featureList.add(feature);
+        featureList.add(feature2);
 
         final List<AnnotateImageRequest> annotateImageRequests = new ArrayList<>();
         AnnotateImageRequest annotateImageReq = new AnnotateImageRequest();
@@ -162,10 +187,17 @@ public class MainActivity extends AppCompatActivity {
             }
 
             protected void onPostExecute(String result) {
+                if (result == "Nothing Found"){
+                    Context context = getApplicationContext();
+                    Toast toast = Toast.makeText(context, result, Toast.LENGTH_LONG);
+                    toast.show();
+                }
                 resultView.setText(result);
                 // imageUploadProgress.setVisibility(View.INVISIBLE);
             }
         }.execute();
+
+
     }
 
     private Image getImageEncodeImage(Bitmap bitmap) {
@@ -184,11 +216,15 @@ public class MainActivity extends AppCompatActivity {
 
         AnnotateImageResponse imageResponses = response.getResponses().get(0);
         List<EntityAnnotation> entityAnnotations;
+        List<WebEntity> webAnnotations;
 
         String message = "";
         entityAnnotations = imageResponses.getLogoAnnotations();
+        WebDetection test = imageResponses.getWebDetection();
+        //webSearchView.setText(formatWebAnnotation(test.getWebEntities()));
         message = formatAnnotation(entityAnnotations);
-
+        if (test != null)
+            message += formatWebAnnotation(test.getWebEntities());
 
         return message;
     }
@@ -202,6 +238,20 @@ public class MainActivity extends AppCompatActivity {
                 message += "\n";
             }
         } else {
+            message = "Nothing Found for Logo \n";
+        }
+        return message;
+    }
+
+    private String formatWebAnnotation(List<WebEntity> entityAnnotation){
+        String message = "Web: \n";
+        if (entityAnnotation != null ){
+            for (WebEntity entity: entityAnnotation){
+                message = message + "      " + entity.getDescription() + "  " + entity.getScore();
+                message += "\n";
+            }
+        }
+        else{
             message = "Nothing Found";
         }
         return message;
