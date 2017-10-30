@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BrandRecognizer</string>
+    <string name="auth_failed">Authentication failed</string>
 </resources>
