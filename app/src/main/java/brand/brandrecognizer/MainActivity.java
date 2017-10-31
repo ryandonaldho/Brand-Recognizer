@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.R.attr.bitmap;
+import static android.R.attr.progress;
 import static android.R.id.message;
 
 public class MainActivity extends AppCompatActivity {
@@ -58,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageView;
 
     TextView resultView;
-    TextView webSearchView;
+
+    ProgressBar progressBar;
 
     private Bitmap bitmap;
     private Feature feature;
@@ -85,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
         resultView = (TextView) findViewById(R.id.textView);
 
         getGallery = (Button) findViewById(R.id.gallery);
+
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         takePicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void callCloudVisionAPI(Bitmap bitmap, final Feature feature) {
+        progressBar.setVisibility(View.VISIBLE);
         List<Feature> featureList = new ArrayList<>();
         featureList.add(feature);
         featureList.add(feature2);
@@ -187,12 +193,14 @@ public class MainActivity extends AppCompatActivity {
             }
 
             protected void onPostExecute(String result) {
-                if (result == "Nothing Found"){
+                    progressBar.setVisibility(View.INVISIBLE);
                     Context context = getApplicationContext();
                     Toast toast = Toast.makeText(context, result, Toast.LENGTH_LONG);
                     toast.show();
-                }
-                resultView.setText(result);
+                    resultView.setText(result);
+                    Intent intent = new Intent(MainActivity.this,WebActivity.class);
+                    intent.putExtra("test",result);
+                    startActivity(intent);
                 // imageUploadProgress.setVisibility(View.INVISIBLE);
             }
         }.execute();
@@ -224,7 +232,8 @@ public class MainActivity extends AppCompatActivity {
         //webSearchView.setText(formatWebAnnotation(test.getWebEntities()));
         message = formatAnnotation(entityAnnotations);
         if (test != null)
-            message += formatWebAnnotation(test.getWebEntities());
+            if (message == "Nothing Found for Logo \n")
+                message += formatWebAnnotation(test.getWebEntities());
 
         return message;
     }
@@ -234,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (entityAnnotation != null) {
             for (EntityAnnotation entity : entityAnnotation) {
-                message = message + "    " + entity.getDescription() + " " + entity.getScore();
+                message = message + "    " + entity.getDescription(); // + " " + entity.getScore();
                 message += "\n";
             }
         } else {
