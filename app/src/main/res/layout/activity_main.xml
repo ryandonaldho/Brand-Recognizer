@@ -31,4 +31,13 @@
         tools:layout_editor_absoluteX="226dp"
         tools:layout_editor_absoluteY="372dp" />
 
+    <Button
+        android:id="@+id/viewMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="mapClick"
+        android:text="View Map"
+        tools:layout_editor_absoluteX="145dp"
+        tools:layout_editor_absoluteY="440dp" />
+
 </android.support.constraint.ConstraintLayout>

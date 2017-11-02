@@ -1,7 +1,9 @@
 package brand.brandrecognizer;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -11,6 +13,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+    public void mapClick(View view){
+        Intent enterIntent = new Intent(MainActivity.this, MapsActivity.class);
+        startActivity(enterIntent);
+
     }
     // test
 }
