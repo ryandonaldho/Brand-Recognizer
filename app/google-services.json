@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "742604817309",
+    "firebase_url": "https://brand-recognizer.firebaseio.com",
+    "project_id": "brand-recognizer",
+    "storage_bucket": "brand-recognizer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742604817309:android:f0bc02bb27165bc8",
+        "android_client_info": {
+          "package_name": "brand.brandrecognizer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "742604817309-856j4spm7g0kbfgdlgqvd2nkbqf6f45u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "brand.brandrecognizer",
+            "certificate_hash": "8244708f3a6d765b74a67c5924385b8955d5bef1"
+          }
+        },
+        {
+          "client_id": "742604817309-jbgtmrivjdjcries6250rqqsn7gdhfbv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwum2ky_RQV_H_rBdUZrh3nqOPuH35PgU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "742604817309-jbgtmrivjdjcries6250rqqsn7gdhfbv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
