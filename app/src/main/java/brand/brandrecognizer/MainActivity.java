@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -51,7 +52,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private static final int RECORD_REQUEST_CODE = 101;
+    private static final int SELECT_SINGLE_PICTURE = 101;
     private static final int CAMERA_REQUEST_CODE = 102;
+    private static final int SELECT_MULTIPLE_PICTURE = 201;
+    public static final String IMAGE_TYPE = "image/*";
     private static final String CLOUD_VISION_API_KEY = "AIzaSyCKKR9KzqqTGUzzJysbOr_E2nKdPz-8q7M";
 
     Button takePicture;
@@ -136,8 +140,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getImageFromPhone(){
-        Intent gallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(gallery,103);
+        //Intent gallery = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        //startActivityForResult(gallery,103);
+        Intent intent = new Intent();
+        intent.setType(IMAGE_TYPE);
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,
+                getString(R.string.select_picture)), SELECT_SINGLE_PICTURE);
     }
 
     @Override
@@ -147,6 +156,18 @@ public class MainActivity extends AppCompatActivity {
             bitmap = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(bitmap);
             callCloudVisionAPI(bitmap, feature);
+        }
+
+        if(resultCode == RESULT_OK && requestCode == SELECT_SINGLE_PICTURE){
+            Uri selectedImageUri = data.getData();
+            try {
+                imageView.setImageBitmap(new UserPicture(selectedImageUri, getContentResolver()).getBitmap());
+            } catch (IOException e) {
+                Log.e(MainActivity.class.getSimpleName(), "Failed to load image", e);
+            }
+        }
+        else{
+            Toast.makeText(getApplicationContext(), R.string.failed_to_get_data, Toast.LENGTH_LONG).show();
         }
     }
 
