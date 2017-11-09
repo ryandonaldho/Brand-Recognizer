@@ -162,6 +162,8 @@ public class MainActivity extends AppCompatActivity {
             Uri selectedImageUri = data.getData();
             try {
                 imageView.setImageBitmap(new UserPicture(selectedImageUri, getContentResolver()).getBitmap());
+                bitmap = new UserPicture(selectedImageUri,getContentResolver()).getBitmap();
+                callCloudVisionAPI(bitmap,feature);
             } catch (IOException e) {
                 Log.e(MainActivity.class.getSimpleName(), "Failed to load image", e);
             }
