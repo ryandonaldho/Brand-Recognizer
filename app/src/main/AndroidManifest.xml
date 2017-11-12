@@ -19,10 +19,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateAccount"></activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".WebActivity" android:parentActivityName=".MainActivity">
-        </activity>
+        <activity android:name=".CreateAccount" />
+        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".WebActivity"
+            android:parentActivityName=".OptionActivity"></activity>
+        <activity android:name=".OptionActivity" android:parentActivityName=".MainActivity"></activity>
     </application>
 
 </manifest>

@@ -14,7 +14,7 @@ public class WebActivity extends AppCompatActivity {
 
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
-        String brand = getIntent().getExtras().getString("test");
+        String brand = getIntent().getExtras().getString("brand");
         String url = "https://en.m.wikipedia.org/wiki/" + brand;
         WebView view = (WebView) this.findViewById(R.id.Webview1);
         view.setWebViewClient(new WebViewClient());

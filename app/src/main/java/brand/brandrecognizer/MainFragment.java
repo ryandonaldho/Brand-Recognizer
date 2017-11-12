@@ -234,8 +234,8 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 toast.show();
                 resultView.setText(result);
                 if (result != "Nothing Found for Logo \n"){
-                    Intent intent = new Intent(getActivity(),WebActivity.class);
-                    intent.putExtra("test",result);
+                    Intent intent = new Intent(getActivity(),OptionActivity.class);
+                    intent.putExtra("brand",result);
                     startActivity(intent);
                 }
                 // imageUploadProgress.setVisibility(View.INVISIBLE);
