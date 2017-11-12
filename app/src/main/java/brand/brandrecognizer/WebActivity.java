@@ -12,10 +12,13 @@ public class WebActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
 
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+
         String brand = getIntent().getExtras().getString("test");
         String url = "https://en.m.wikipedia.org/wiki/" + brand;
         WebView view = (WebView) this.findViewById(R.id.Webview1);
         view.setWebViewClient(new WebViewClient());
         view.loadUrl(url);
     }
+
 }
