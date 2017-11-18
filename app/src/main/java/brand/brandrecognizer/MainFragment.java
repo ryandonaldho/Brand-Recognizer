@@ -234,7 +234,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 toast.show();
                 resultView.setText(result);
                 if (result != "Nothing Found for Logo \n"){
-                    Intent intent = new Intent(getActivity(),OptionActivity.class);
+                    Intent intent = new Intent(getActivity(),OptionTabActivity.class);
                     intent.putExtra("brand",result);
                     startActivity(intent);
                 }

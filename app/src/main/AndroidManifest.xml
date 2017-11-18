@@ -22,9 +22,10 @@
         <activity android:name=".CreateAccount" />
         <activity android:name=".MainActivity" />
         <activity
-            android:name=".WebActivity"
-            android:parentActivityName=".OptionActivity"></activity>
-        <activity android:name=".OptionActivity" android:parentActivityName=".MainActivity"></activity>
+            android:name=".OptionTabActivity"
+            android:label="@string/title_activity_option_tab"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
