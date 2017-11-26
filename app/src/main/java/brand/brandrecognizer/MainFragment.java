@@ -64,16 +64,19 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
     Button takePicture;
     Button getGallery;
+    Button searchImageButton;
 
     ImageView imageView;
 
-    TextView resultView;
+   // TextView resultView;
 
     ProgressBar progressBar;
 
     private Bitmap bitmap;
     private Feature feature;
     private Feature feature2;
+
+
 
 
     public MainFragment() {
@@ -100,7 +103,9 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         takePicture = (Button) v.findViewById(R.id.take_picture);
         imageView = (ImageView) v.findViewById(R.id.imageView);
 
-        resultView = (TextView) v.findViewById(R.id.textView);
+        searchImageButton = (Button) v.findViewById(R.id.searchImage);
+
+        //resultView = (TextView) v.findViewById(R.id.textView);
 
         getGallery = (Button) v.findViewById(R.id.gallery);
 
@@ -108,6 +113,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
         takePicture.setOnClickListener(this);
         getGallery.setOnClickListener(this);
+        searchImageButton.setOnClickListener(this);
 
         return v;
 
@@ -122,7 +128,14 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             case R.id.gallery:
                 getImageFromPhone();
                 break;
+            case R.id.searchImage:
+                startSearch();
         }
+    }
+
+    private void startSearch() {
+        callCloudVisionAPI(bitmap, feature);
+        System.out.println("clicked");
     }
 
     @Override
@@ -167,7 +180,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
             bitmap = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(bitmap);
-            callCloudVisionAPI(bitmap, feature);
+            searchImageButton.setVisibility(View.VISIBLE);
         }
 
         if(resultCode == RESULT_OK && requestCode == SELECT_SINGLE_PICTURE){
@@ -175,13 +188,10 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             try {
                 imageView.setImageBitmap(new UserPicture(selectedImageUri, getActivity().getContentResolver()).getBitmap());
                 bitmap = new UserPicture(selectedImageUri,getActivity().getContentResolver()).getBitmap();
-                callCloudVisionAPI(bitmap,feature);
+                searchImageButton.setVisibility(View.VISIBLE);
             } catch (IOException e) {
                 Log.e(MainActivity.class.getSimpleName(), "Failed to load image", e);
             }
-        }
-        else{
-            Toast.makeText(getActivity().getApplicationContext(), R.string.failed_to_get_data, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -197,11 +207,12 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         annotateImageReq.setImage(getImageEncodeImage(bitmap));
         annotateImageRequests.add(annotateImageReq);
 
-        new AsyncTask<Object, Void, String>() {
+        new AsyncTask<Object, Integer, String>() {
             @Override
             protected String doInBackground(Object... params) {
                 try {
-
+                    publishProgress(20);
+                    Thread.sleep(500);
                     HttpTransport httpTransport = AndroidHttp.newCompatibleTransport();
                     JsonFactory jsonFactory = GsonFactory.getDefaultInstance();
 
@@ -214,25 +225,45 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
                     BatchAnnotateImagesRequest batchAnnotateImagesRequest = new BatchAnnotateImagesRequest();
                     batchAnnotateImagesRequest.setRequests(annotateImageRequests);
-
+                    publishProgress(60);
+                    Thread.sleep(500);
                     Vision.Images.Annotate annotateRequest = vision.images().annotate(batchAnnotateImagesRequest);
                     annotateRequest.setDisableGZipContent(true);
                     BatchAnnotateImagesResponse response = annotateRequest.execute();
+                    publishProgress(100);
                     return convertResponseToString(response);
                 } catch (GoogleJsonResponseException e) {
                     Log.d(TAG, "failed to make API request because " + e.getContent());
                 } catch (IOException e) {
                     Log.d(TAG, "failed to make API request because of other IOException " + e.getMessage());
                 }
+                catch (InterruptedException e){
+                    e.printStackTrace();
+
+                }
                 return "Cloud Vision API request failed. Check logs for details.";
             }
 
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                progressBar.setMax(100);
+            }
+
+            @Override
+            protected void onProgressUpdate(Integer... values) {
+                super.onProgressUpdate(values);
+                progressBar.setProgress(values[0]);
+            }
+
+            @Override
             protected void onPostExecute(String result) {
-                progressBar.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.GONE );
                 Context context = getActivity().getApplicationContext();
                 Toast toast = Toast.makeText(context, result, Toast.LENGTH_LONG);
                 toast.show();
-                resultView.setText(result);
+                // resultView.setText(result);
                 if (result != "Nothing Found for Logo \n"){
                     Intent intent = new Intent(getActivity(),OptionTabActivity.class);
                     intent.putExtra("brand",result);
