@@ -12,7 +12,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ic_eye);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         if (findViewById(R.id.fragment_container) != null){
             if (savedInstanceState != null){
