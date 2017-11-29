@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-public class OptionTabActivity extends AppCompatActivity {
+public class OptionTabFragment extends Fragment {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -37,31 +37,30 @@ public class OptionTabActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
 
+    Bundle bundle;
+    String brand = "";
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_option_tab);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Brand Check");
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.activity_option_tab, container, false);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getActivity().getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = v.findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = v.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        bundle = this.getArguments();
 
+        brand = bundle.getString("brand");
 
+        return v;
     }
 
     /*
@@ -73,20 +72,7 @@ public class OptionTabActivity extends AppCompatActivity {
     }
 
     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 
     /**
@@ -102,10 +88,8 @@ public class OptionTabActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
 
-            String brand = "";
-            brand = getIntent().getExtras().getString("brand");
-            Bundle bundle = new Bundle();
-            bundle.putString("brand",brand);
+            Bundle bundle2 = new Bundle();
+            bundle2.putString("brand",brand);
 
             switch (position) {
                 case 0:

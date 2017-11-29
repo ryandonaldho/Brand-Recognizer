@@ -1,7 +1,6 @@
 package brand.brandrecognizer;
 
 
-import android.*;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -269,7 +267,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 toast.show();
                 // resultView.setText(result);
                 if (result != "Nothing Found for Logo \n"){
-                    Intent intent = new Intent(getActivity(),OptionTabActivity.class);
+                    Intent intent = new Intent(getActivity(),OptionTabFragment.class);
                     intent.putExtra("brand",result);
 
                     // put search result into database
@@ -279,7 +277,14 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     String uuid = currentUser.getUid();
                     myRef.child(uuid).child("searches").push().setValue(result);
 
-                    startActivity(intent);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("brand",result);
+
+                    OptionTabFragment optionTabFragment = new OptionTabFragment();
+                    optionTabFragment.setArguments(bundle);
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, optionTabFragment).addToBackStack(null).commit();
+
+                   // startActivity(intent);
                 }
                 // imageUploadProgress.setVisibility(View.INVISIBLE);
             }

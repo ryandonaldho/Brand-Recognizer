@@ -1,9 +1,7 @@
 package brand.brandrecognizer;
 
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.ArrayRes;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -46,7 +45,10 @@ public class HistoryFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_history, container, false);
 
         listView = v.findViewById(R.id.listview_history);
-
+        listView.setAdapter(null);
+        TextView textView = new TextView(getContext());
+        textView.setText("Your Search History");
+        listView.addHeaderView(textView);
         final ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_dropdown_item_1line,list);
         listView.setAdapter(adapter);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser() ;
@@ -88,15 +90,15 @@ public class HistoryFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String value = (String)adapter.getItem(i);
                 System.out.println(value);
-               // Bundle bundle = new Bundle();
-                // bundle.putString("brand",value);
-                Intent intent = new Intent(getActivity(),OptionTabActivity.class);
-                intent.putExtra("brand",value);
-                startActivity(intent);
+                Bundle bundle = new Bundle();
+                 bundle.putString("brand",value);
                 //WebFragment webFragment = new WebFragment();
-               // webFragment.setArguments(bundle);
+                OptionTabFragment optionTabFragment = new OptionTabFragment();
+                optionTabFragment.setArguments(bundle);
 
-               //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,webFragment).addToBackStack(null).commit();
+                //webFragment.setArguments(bundle);
+
+               getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, optionTabFragment).addToBackStack(null).commit();
             }
         });
 
