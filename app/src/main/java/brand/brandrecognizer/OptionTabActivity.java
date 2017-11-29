@@ -113,7 +113,8 @@ public class OptionTabActivity extends AppCompatActivity {
                     webFragment.setArguments(bundle);
                     return webFragment;
                 case 1:
-                    MapFragment mapFragment = new MapFragment();
+                    //MapFragment mapFragment = new MapFragment();
+                    HistoryFragment mapFragment = new HistoryFragment();
                     return mapFragment;
                 default:
                     return null;

@@ -15,6 +15,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 
 public class CreateAccount extends AppCompatActivity implements View.OnClickListener{
@@ -112,7 +116,22 @@ public class CreateAccount extends AppCompatActivity implements View.OnClickList
                         else if (task.isSuccessful()) {
                             Toast.makeText(CreateAccount.this, "success", Toast.LENGTH_SHORT).show();
                             toggle_button(true);
+                            // create user field with the person's uid
+                            Toast.makeText(CreateAccount.this,  mAuth.getCurrentUser().getUid(), Toast.LENGTH_SHORT).show();
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference myRef = database.getReference("users");
+                            String uuid = mAuth.getCurrentUser().getUid();
+                            UserInfo userInfo = new UserInfo();
+                            userInfo.setEmail(mAuth.getCurrentUser().getEmail());
+                            userInfo.setUserName(mAuth.getCurrentUser().getDisplayName());
+                            myRef.child(uuid).setValue(userInfo);
+                            HashMap hm = new HashMap();
+                            hm.put("Name","1");
+                            hm.put("Ke","1");
+                            myRef.child(uuid).child("searches").push().setValue("test");
+                            myRef.child(uuid).child("searches").push().setValue("test1");
                             switch_to_mainmenu();
+
                         }
                     }
 

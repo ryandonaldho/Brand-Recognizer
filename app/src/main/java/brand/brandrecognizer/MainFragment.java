@@ -39,6 +39,10 @@ import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
 import com.google.api.services.vision.v1.model.WebDetection;
 import com.google.api.services.vision.v1.model.WebEntity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -267,6 +271,14 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 if (result != "Nothing Found for Logo \n"){
                     Intent intent = new Intent(getActivity(),OptionTabActivity.class);
                     intent.putExtra("brand",result);
+
+                    // put search result into database
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference myRef = database.getReference("users");
+                    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser() ;
+                    String uuid = currentUser.getUid();
+                    myRef.child(uuid).child("searches").push().setValue(result);
+
                     startActivity(intent);
                 }
                 // imageUploadProgress.setVisibility(View.INVISIBLE);
@@ -312,8 +324,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
         if (entityAnnotation != null) {
             for (EntityAnnotation entity : entityAnnotation) {
-                message = message + "    " + entity.getDescription(); // + " " + entity.getScore();
-                message += "\n";
+                message += entity.getDescription(); // + " " + entity.getScore();
             }
         } else {
             message = "Nothing Found for Logo \n";
