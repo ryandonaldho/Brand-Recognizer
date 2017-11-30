@@ -96,20 +96,20 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
         facebook_signin_button.setReadPermissions("email", "public_profile");
         mCallbackManager = CallbackManager.Factory.create();
         facebook_signin_button.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-                @Override
-                public void onSuccess(LoginResult loginResult) {
-                    handleFacebookAccessToken(loginResult.getAccessToken());
-                }
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                handleFacebookAccessToken(loginResult.getAccessToken());
+            }
 
-                @Override
-                public void onCancel() {
-                    // App code
-                }
+            @Override
+            public void onCancel() {
+                // App code
+            }
 
-                @Override
-                public void onError(FacebookException exception) {
-                    // App code
-                }
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+            }
         });
 
         twitter_signin_button = (TwitterLoginButton)findViewById(R.id.twitter_login_button);
@@ -139,7 +139,6 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-
             }
         };
 
@@ -159,6 +158,10 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
         {// change to the CreateAccount activity the user clicks to sign up
             Intent i = new Intent(this, CreateAccount.class);
             startActivity(i);
+        }
+        else if(v.getId() == R.id.google_login_button && google_signin_button.isEnabled())
+        {
+            google_sign_in();
         }
 
     }// End onClick
@@ -180,22 +183,19 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
 
     private void brandrecog_sign_in(String email, String password){
         // log into firebase if the user has an account
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                        if (!task.isSuccessful()){
-                            Toast.makeText(MainMenuActivity.this, "failed", Toast.LENGTH_SHORT).show();
-                            toggle_button(true);
-                        }
-                        else if (task.isSuccessful()){
-                            Toast.makeText(MainMenuActivity.this, "success", Toast.LENGTH_SHORT).show();
-                            toggle_button(true);
-                            switch_to_mainactivity();
-                        }
-
-                    }
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (!task.isSuccessful()){
+                    Toast.makeText(MainMenuActivity.this, "failed", Toast.LENGTH_SHORT).show();
+                    toggle_button(true);
+                }
+                else if (task.isSuccessful()){
+                    Toast.makeText(MainMenuActivity.this, "success", Toast.LENGTH_SHORT).show();
+                    toggle_button(true);
+                    switch_to_mainactivity();
+                }
+            }
         });
     }// End sign_in
 
@@ -207,23 +207,23 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
     private void google_firebaseAuth(GoogleSignInAccount acct) {
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
 
-                    if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "signInWithCredential:success");
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        switch_to_mainactivity();
-                    }
-                    else {
-                            // If sign in fails, display a message to the user.
-                        Log.w(TAG, "signInWithCredential:failure", task.getException());
-                        Toast.makeText(MainMenuActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-
-                    }
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "signInWithCredential:success");
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    switch_to_mainactivity();
+                }
+                else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "signInWithCredential:failure", task.getException());
+                    Toast.makeText(MainMenuActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
 
                 }
+
+            }
         });
 
     }
@@ -306,9 +306,7 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
     private void handleTwitterSession(TwitterSession session) {
         Log.d(TAG, "handleTwitterSession:" + session);
 
-        AuthCredential credential = TwitterAuthProvider.getCredential(
-                session.getAuthToken().token,
-                session.getAuthToken().secret);
+        AuthCredential credential = TwitterAuthProvider.getCredential(session.getAuthToken().token, session.getAuthToken().secret);
 
         mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 
@@ -330,4 +328,4 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
-}
+}// End MainMenuActivity
