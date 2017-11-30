@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 /**
@@ -59,6 +60,8 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 list.add(dataSnapshot.getValue(String.class));
+                // view most recent items first
+                Collections.reverse(list);
                 adapter.notifyDataSetChanged();
             }
 
@@ -70,6 +73,8 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 list.remove(dataSnapshot.getValue(String.class));
+                // view most recent items first
+                Collections.reverse(list);
                 adapter.notifyDataSetChanged();
 
             }
@@ -98,7 +103,7 @@ public class HistoryFragment extends Fragment {
 
                 //webFragment.setArguments(bundle);
 
-               getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, optionTabFragment).addToBackStack(null).commit();
+               getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, optionTabFragment).addToBackStack(null).commit();
             }
         });
 
