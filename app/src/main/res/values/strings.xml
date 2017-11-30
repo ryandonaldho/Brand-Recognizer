@@ -9,4 +9,11 @@
     <string name="title_activity_option_tab">OptionTabActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- API KEYS -->
+    <string name="facebook_app_id">1988270078120840</string>
+    <string name="fb_login_protocol_scheme">fb1988270078120840</string>
+    <string name="com.twitter.sdk.android.CONSUMER_KEY">DWubgA1QU8NyDXnbseTDAwqCJ </string>
+    <string name="com.twitter.sdk.android.CONSUMER_SECRET">r3y0l8ujkwVOJmKHjq8RBppzUD3sCjdUzOiLYCRUytg3h6SM7D</string>
+
 </resources>
