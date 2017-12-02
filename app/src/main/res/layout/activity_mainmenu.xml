@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
 
     android:id="@+id/const_ly"
     android:layout_width="match_parent"
@@ -135,8 +135,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:text="@string/google_signin_text">
+                    android:layout_weight="1">
 
                 </com.google.android.gms.common.SignInButton>
 
@@ -156,8 +155,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:text="@string/twitter_signin_text"/>
+                    android:layout_margin="5dp"/>
 
             </LinearLayout>
 

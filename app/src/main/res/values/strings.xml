@@ -17,8 +17,12 @@
     <string name="com.twitter.sdk.android.CONSUMER_SECRET">r3y0l8ujkwVOJmKHjq8RBppzUD3sCjdUzOiLYCRUytg3h6SM7D</string>
 
     <!-- BUTTON STRING CONSTANTS -->
-    <string name="google_signin_text">Sign in with Google</string>
-    <string name="facebook_signin_text">Sign in with Facebook</string>
-    <string name="twitter_signin_text">Sign in with Twitter</string>
+    <string name="google_maps_API_key">AIzaSyAQ0tHxeLZE3pElkuH5xiTl12lrBhMoSlw</string>
+
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+
 
 </resources>

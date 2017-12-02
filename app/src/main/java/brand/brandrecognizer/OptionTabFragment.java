@@ -97,8 +97,8 @@ public class OptionTabFragment extends Fragment {
                     webFragment.setArguments(bundle);
                     return webFragment;
                 case 1:
-                    //MapFragment mapFragment = new MapFragment();
-                    HistoryFragment mapFragment = new HistoryFragment();
+                    MapFragment mapFragment = new MapFragment();
+                    //HistoryFragment mapFragment = new HistoryFragment();
                     return mapFragment;
                 default:
                     return null;
