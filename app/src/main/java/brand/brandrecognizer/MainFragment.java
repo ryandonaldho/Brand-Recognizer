@@ -67,7 +67,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     Button takePicture;
     Button getGallery;
     Button searchImageButton;
-    Button temp_logout_button;
 
     ImageView imageView;
 
@@ -113,7 +112,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
         searchImageButton = (Button) v.findViewById(R.id.searchImage);
 
-        temp_logout_button = (Button) v.findViewById(R.id.temp_logout);
         //resultView = (TextView) v.findViewById(R.id.textView);
 
         getGallery = (Button) v.findViewById(R.id.gallery);
@@ -123,7 +121,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         takePicture.setOnClickListener(this);
         getGallery.setOnClickListener(this);
         searchImageButton.setOnClickListener(this);
-        temp_logout_button.setOnClickListener(this);
+
 
         return v;
 
@@ -140,8 +138,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.searchImage:
                 startSearch();
-            case R.id.temp_logout:
-                temp_logout();
         }
     }
 
