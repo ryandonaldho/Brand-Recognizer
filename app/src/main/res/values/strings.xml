@@ -16,4 +16,9 @@
     <string name="com.twitter.sdk.android.CONSUMER_KEY">DWubgA1QU8NyDXnbseTDAwqCJ </string>
     <string name="com.twitter.sdk.android.CONSUMER_SECRET">r3y0l8ujkwVOJmKHjq8RBppzUD3sCjdUzOiLYCRUytg3h6SM7D</string>
 
+    <!-- BUTTON STRING CONSTANTS -->
+    <string name="google_signin_text">Sign in with Google</string>
+    <string name="facebook_signin_text">Sign in with Facebook</string>
+    <string name="twitter_signin_text">Sign in with Twitter</string>
+
 </resources>
