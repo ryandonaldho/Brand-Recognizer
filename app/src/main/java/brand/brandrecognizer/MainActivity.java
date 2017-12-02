@@ -1,5 +1,6 @@
 package brand.brandrecognizer;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -22,6 +23,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -74,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
 
                 if(nav[0] == (String) parent.getItemAtPosition(position)){
                     // logs out
-                    Toast.makeText(MainActivity.this, "This will move you around", Toast.LENGTH_SHORT).show();
+                    FirebaseAuth.getInstance().signOut();
+                    Intent i = new Intent(MainActivity.this, MainMenuActivity.class);
+                    startActivity(i);
                 }
                 else if(nav[1] == (String) parent.getItemAtPosition(position)){
                     // goes to history
@@ -90,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if(nav[2] == (String) parent.getItemAtPosition(position)){
                     // goes home
-                    Toast.makeText(MainActivity.this, "This will move you around", Toast.LENGTH_SHORT).show();
+                    MainFragment mainFragment = new MainFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,mainFragment).commit();
+
                 }
                 else if(nav[3] == (String) parent.getItemAtPosition(position)){
                     // shows about
