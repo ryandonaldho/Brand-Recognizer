@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,6 +69,8 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
     private TwitterLoginButton twitter_signin_button;
 
 
+    private PopupWindow popwindow;
+
     CallbackManager mCallbackManager;
 
     protected void onCreate(Bundle savedInstanceState){
@@ -87,9 +90,10 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
         google_signin_button.setOnClickListener(this);
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        toggle_button(true);
+
 
         facebook_signin_button = (LoginButton)findViewById(R.id.facebook_login_button);
+        facebook_signin_button.setOnClickListener(this);
         facebook_signin_button.setReadPermissions("email", "public_profile");
         mCallbackManager = CallbackManager.Factory.create();
         facebook_signin_button.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
@@ -100,7 +104,8 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onCancel() {
-                // App code
+                Toast.makeText(MainMenuActivity.this, "Log in Failed", Toast.LENGTH_SHORT).show();
+                toggle_button(true);
             }
 
             @Override
@@ -110,19 +115,24 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
         });
 
         twitter_signin_button = (TwitterLoginButton)findViewById(R.id.twitter_login_button);
-        twitter_signin_button.setEnabled(true);
+        twitter_signin_button.setOnClickListener(this);
+        
         twitter_signin_button.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
                 // Do something with result, which provides a TwitterSession for making API calls
                 handleTwitterSession(result.data);
+
             }
 
             @Override
             public void failure(TwitterException exception) {
-                // Do something on failure
+                Toast.makeText(MainMenuActivity.this, "Log in Failed", Toast.LENGTH_SHORT).show();
+                toggle_button(true);
             }
         });
+
+        toggle_button(true);
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -149,17 +159,28 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
             toggle_button(false);
             String email = email_text.getText().toString();
             String password = password_text.getText().toString();
-            brandrecog_sign_in(email, password);
+            if(email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(MainMenuActivity.this, "please enter email and password", Toast.LENGTH_SHORT).show();
+                toggle_button(true);
+            }
+            else
+                brandrecog_sign_in(email, password);
         }
         else if(v.getId() == R.id.signup_text && signin_button.isEnabled())
         {// change to the CreateAccount activity the user clicks to sign up
             Intent i = new Intent(this, CreateAccount.class);
             startActivity(i);
         }
-        else if(v.getId() == R.id.google_login_button && google_signin_button.isEnabled())
+        else if(v.getId() == R.id.google_login_button)
         {
+            toggle_button(false);
             google_sign_in();
         }
+        else if(v.getId() == R.id.facebook_login_button || v.getId() == R.id.twitter_login_button)
+        {
+            toggle_button(false);
+        }
+
 
     }// End onClick
 
@@ -167,6 +188,9 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
     public void onStart(){
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
+        if(mAuth.getCurrentUser() != null)
+            switch_to_mainactivity();
+
     }
 
     @Override
@@ -232,12 +256,18 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
         {
             signin_button.setEnabled(true); // disable button while the system is attempting to log in
             signin_button.setText("Sign In");
+            google_signin_button.setEnabled(true);
+            facebook_signin_button.setEnabled(true);
+            twitter_signin_button.setEnabled(true);
             signup_text.setTextColor(Color.parseColor("#000000"));
         }
         else
         {
             signin_button.setEnabled(false); // disable button while the system is attempting to log in
             signin_button.setText("Logging in...");
+            google_signin_button.setEnabled(false);
+            facebook_signin_button.setEnabled(false);
+            twitter_signin_button.setEnabled(false);
             signup_text.setTextColor(Color.parseColor("#666666"));
         }
 
