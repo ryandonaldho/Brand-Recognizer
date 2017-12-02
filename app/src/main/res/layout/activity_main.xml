@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="brand.brandrecognizer.MainActivity">
+    android:id="@+id/fragment_container"
+    >
 
+<<<<<<< HEAD
     <fragment
         android:id="@+id/fragment_main"
         android:layout_width="wrap_content"
@@ -13,3 +14,7 @@
         android:name="brand.brandrecognizer.MainFragment" />
 
     </android.support.constraint.ConstraintLayout>
+=======
+</FrameLayout>
+
+>>>>>>> 13dcfc8d44480016ebd64c521910dd6d5c0b07da
