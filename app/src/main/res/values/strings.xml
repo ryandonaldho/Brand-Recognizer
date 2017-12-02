@@ -18,4 +18,9 @@
 
     <string name="google_maps_API_key">AIzaSyAQ0tHxeLZE3pElkuH5xiTl12lrBhMoSlw</string>
 
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+
 </resources>
