@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Brand-Recognizer.iml" filepath="$PROJECT_DIR$/Brand-Recognizer.iml" />
       <module fileurl="file://C:\Users\Hersh\Desktop\project_cmps121\working\Brand-Recognizer\Brand-Recognizer.iml" filepath="C:\Users\Hersh\Desktop\project_cmps121\working\Brand-Recognizer\Brand-Recognizer.iml" />
       <module fileurl="file://C:\Users\Ryan\Desktop\MyApplication\Brand-Recognizer.iml" filepath="C:\Users\Ryan\Desktop\MyApplication\Brand-Recognizer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MyApplication.iml" filepath="$PROJECT_DIR$/MyApplication.iml" />
       <module fileurl="file://D:\GitHub\Brand-Recognizer\MyApplication.iml" filepath="D:\GitHub\Brand-Recognizer\MyApplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MyApplication.iml" filepath="$PROJECT_DIR$/MyApplication.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://C:\Users\Hersh\Desktop\project_cmps121\working\Brand-Recognizer\app\app.iml" filepath="C:\Users\Hersh\Desktop\project_cmps121\working\Brand-Recognizer\app\app.iml" />
     </modules>
