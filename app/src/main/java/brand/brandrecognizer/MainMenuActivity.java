@@ -99,6 +99,7 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
         facebook_signin_button.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                Toast.makeText(MainMenuActivity.this, "Log in Success", Toast.LENGTH_SHORT).show();
                 handleFacebookAccessToken(loginResult.getAccessToken());
             }
 
@@ -114,6 +115,7 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
+
         twitter_signin_button = (TwitterLoginButton)findViewById(R.id.twitter_login_button);
         twitter_signin_button.setOnClickListener(this);
         
@@ -121,8 +123,8 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void success(Result<TwitterSession> result) {
                 // Do something with result, which provides a TwitterSession for making API calls
+                Toast.makeText(MainMenuActivity.this, "Log in Success", Toast.LENGTH_SHORT).show();
                 handleTwitterSession(result.data);
-
             }
 
             @Override
@@ -297,6 +299,7 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            Toast.makeText(MainMenuActivity.this, "Log in Success", Toast.LENGTH_SHORT).show();
             google_firebaseAuth(account);
             Log.w(TAG, "signIn: success");
 

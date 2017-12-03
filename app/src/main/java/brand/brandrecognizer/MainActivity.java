@@ -24,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 if(nav[0] == (String) parent.getItemAtPosition(position)){
                     // logs out
                     FirebaseAuth.getInstance().signOut();
+                    LoginManager.getInstance().logOut();
                     Intent i = new Intent(MainActivity.this, MainMenuActivity.class);
                     startActivity(i);
                 }
