@@ -98,12 +98,8 @@ public class OptionTabFragment extends Fragment {
                     return webFragment;
                 case 1:
                     MapFragment mapFragment = new MapFragment();
-<<<<<<< HEAD
                    // HistoryFragment mapFragment = new HistoryFragment();
 
-=======
-                    //HistoryFragment mapFragment = new HistoryFragment();
->>>>>>> c2ee29f389e9907809e54706639dc54d49743b3d
                     return mapFragment;
                 default:
                     return null;
