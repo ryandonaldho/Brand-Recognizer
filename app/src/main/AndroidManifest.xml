@@ -25,6 +25,8 @@
             android:value="AIzaSyAQ0tHxeLZE3pElkuH5xiTl12lrBhMoSlw"/>
 
         <activity android:name=".MainMenuActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,6 +35,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".CreateAccount"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".MainActivity"/>
 

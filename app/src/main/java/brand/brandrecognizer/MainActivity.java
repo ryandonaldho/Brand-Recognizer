@@ -92,29 +92,24 @@ public class MainActivity extends AppCompatActivity {
                     transaction.replace(R.id.fragment_container, history);
                     transaction.commit();*/
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,historyFragment).addToBackStack(null).commit();
-
-
+                    myDrawerLayout.closeDrawers();
                 }
                 else if(nav[2] == (String) parent.getItemAtPosition(position)){
                     // goes home
                     MainFragment mainFragment = new MainFragment();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,mainFragment).commit();
-
+                    myDrawerLayout.closeDrawers();
                 }
                 else if(nav[3] == (String) parent.getItemAtPosition(position)){
                     // shows about
                     AboutFragment aboutFragment = new AboutFragment();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,aboutFragment).commit();
+                    myDrawerLayout.closeDrawers();
                 }
                 else if(nav[4] == (String) parent.getItemAtPosition(position)){
                     PopularFragment popularFragment = new PopularFragment();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,popularFragment).commit();
-                }
-                else if(nav[4] == (String) parent.getItemAtPosition(position)){
-
-                    PopularFragment popularFragment = new PopularFragment();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,popularFragment).commit();
-
+                    myDrawerLayout.closeDrawers();
                 }
             }
         });
@@ -151,32 +146,19 @@ public class MainActivity extends AppCompatActivity {
         super.onConfigurationChanged(config);
         myToggle.onConfigurationChanged(config);
     }
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu);
-    }*/
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        int id = item.getItemId();
 
-        if(id == R.id.action_settings){
-            return true;
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item){
+            int id = item.getItemId();
+
+            if(myToggle.onOptionsItemSelected(item)){
+                return true;
+            }
+
+            return super.onOptionsItemSelected(item);
         }
 
-        if(myToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_option_tab, menu);
-        return true;
-    }
 
 
 

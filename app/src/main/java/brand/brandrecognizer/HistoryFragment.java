@@ -3,7 +3,11 @@ package brand.brandrecognizer;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,9 +23,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -78,7 +85,6 @@ public class HistoryFragment extends Fragment {
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 list.remove(dataSnapshot.getValue(String.class));
                 // view most recent items first
-                Collections.reverse(list);
                 adapter.notifyDataSetChanged();
 
             }
@@ -111,8 +117,51 @@ public class HistoryFragment extends Fragment {
             }
         });
 
+
+        setHasOptionsMenu(true);
         return v;
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_option_tab, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.delete_history: deleteHistory();
+        }
+
+        return false;
+    }
+
+    public void deleteHistory(){
+        String uuid = FirebaseAuth.getInstance().getUid();
+        dref= FirebaseDatabase.getInstance().getReference().child("users").child(uuid).child("searches");
+        DatabaseReference db_node = FirebaseDatabase.getInstance().getReference().child("users").child(uuid);
+        db_node.child("searches").setValue(null);
+        /*
+        dref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("here");
+                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                    //System.out.println(childDataSnapshot.getKey());
+                    String key = childDataSnapshot.getKey();
+                    dref.child(key).removeValue();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        */
+
+    }
+
 
 
 

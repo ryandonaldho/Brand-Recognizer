@@ -24,6 +24,8 @@ import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 
 /**
@@ -58,10 +60,8 @@ public class PopularFragment extends Fragment {
         final ArrayAdapter<ListObject> adapter=new ArrayAdapter<ListObject>(getActivity(),android.R.layout.simple_dropdown_item_1line,list);
         listView.setAdapter(adapter);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser() ;
-        String uuid = currentUser.getUid();
         dref= FirebaseDatabase.getInstance().getReference().child("popular");
         Query query = dref.orderByValue().limitToLast(20);
-        //dref.child("users").child(uuid).child("searches");
         query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -70,6 +70,18 @@ public class PopularFragment extends Fragment {
                 listObject.setBrandName(dataSnapshot.getKey().toString());
                 listObject.setCount(+dataSnapshot.getValue(Integer.class));
                 list.add(listObject);
+
+                // sort data by descending order
+                Collections.sort(list, new Comparator<ListObject>() {
+
+                    @Override
+                    public int compare(ListObject o1, ListObject o2) {
+
+                        return o2.getCount() - o1.getCount();
+
+                    }
+                });
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -79,8 +91,6 @@ public class PopularFragment extends Fragment {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                list.remove(dataSnapshot.getValue(String.class));
-                // view most recent items first
 
 
             }
@@ -115,6 +125,7 @@ public class PopularFragment extends Fragment {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, optionTabFragment).addToBackStack(null).commit();
             }
         });
+
 
         return v;
     }

@@ -23,7 +23,7 @@
                 android:id="@+id/sample_logo"
                 android:layout_width="199dp"
                 android:layout_height="101dp"
-                app:srcCompat="@drawable/sample_logo" />
+                app:srcCompat="@drawable/logo" />
         </TableRow>
 
         <TableRow
