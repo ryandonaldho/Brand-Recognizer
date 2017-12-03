@@ -287,7 +287,11 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     // put search result into database
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference myRef = database.getReference("users");
+<<<<<<< HEAD
+                    //DatabaseReference popularRef = database.getReference()
+=======
                     popularRef = database.getReference("popular");
+>>>>>>> c2ee29f389e9907809e54706639dc54d49743b3d
                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser() ;
                     String uuid = currentUser.getUid();
                     myRef.child(uuid).child("searches").push().setValue(result);

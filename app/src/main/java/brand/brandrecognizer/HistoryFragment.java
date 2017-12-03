@@ -33,7 +33,9 @@ import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
+ * Return a list view of the user past searches
  */
+
 public class HistoryFragment extends Fragment {
 
     DatabaseReference dref;
