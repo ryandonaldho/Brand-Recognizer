@@ -41,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setLogo(R.drawable.ic_eye);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ic_drawer);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         myDrawerList = (ListView)findViewById(R.id.navList);
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         addDrawerItems();
         setupDrawer();
 
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (findViewById(R.id.fragment_container) != null){
             if (savedInstanceState != null){
@@ -83,13 +84,13 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if(nav[1] == (String) parent.getItemAtPosition(position)){
                     // goes to history
-                    HistoryFragment history = new HistoryFragment();
+                    HistoryFragment historyFragment = new HistoryFragment();
                 /*    FragmentManager fragmentManager = getSupportFragmentManager();
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
 
                     transaction.replace(R.id.fragment_container, history);
                     transaction.commit();*/
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,history).addToBackStack(null).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,historyFragment).addToBackStack(null).commit();
 
 
                 }
@@ -114,9 +115,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupDrawer(){
         myToggle = new ActionBarDrawerToggle(this, myDrawerLayout, R.string.drawer_open, R.string.drawer_close){
+
             public void onDrawerOpened(View drawerView){
                 super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle("Navigation");
+                getSupportActionBar().setTitle("BrandRecognizer");
                 invalidateOptionsMenu();
             }
 
@@ -128,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         myToggle.setDrawerIndicatorEnabled(true);
-        myDrawerLayout.setDrawerListener(myToggle);
+        myDrawerLayout.addDrawerListener(myToggle);
     }
 
     @Override
@@ -163,8 +165,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_option_tab, menu);
+        return true;
+    }
 
 
 
