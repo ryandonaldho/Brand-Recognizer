@@ -1,5 +1,6 @@
 package brand.brandrecognizer;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -35,15 +36,22 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> myAdapter;
     private ActionBarDrawerToggle myToggle;
     private String title;
+<<<<<<< HEAD
+    private Context context;
     String [] nav = {"Log out", "History", "Home", "About", "Popular"};
+=======
+    String [] nav = {"Log out", "History", "Home", "About","Popular"};
+
+>>>>>>> efbd4814417f860fbe0588b02e278d445afc797f
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setLogo(R.drawable.ic_eye);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ic_drawer);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         myDrawerList = (ListView)findViewById(R.id.navList);
@@ -53,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         addDrawerItems();
         setupDrawer();
 
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (findViewById(R.id.fragment_container) != null){
             if (savedInstanceState != null){
@@ -85,13 +93,13 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if(nav[1] == (String) parent.getItemAtPosition(position)){
                     // goes to history
-                    HistoryFragment history = new HistoryFragment();
+                    HistoryFragment historyFragment = new HistoryFragment();
                 /*    FragmentManager fragmentManager = getSupportFragmentManager();
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
 
                     transaction.replace(R.id.fragment_container, history);
                     transaction.commit();*/
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,history).addToBackStack(null).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,historyFragment).addToBackStack(null).commit();
 
 
                 }
@@ -110,15 +118,22 @@ public class MainActivity extends AppCompatActivity {
                     PopularFragment popularFragment = new PopularFragment();
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,popularFragment).commit();
                 }
+                else if(nav[4] == (String) parent.getItemAtPosition(position)){
+
+                    PopularFragment popularFragment = new PopularFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,popularFragment).commit();
+
+                }
             }
         });
     }
 
     private void setupDrawer(){
         myToggle = new ActionBarDrawerToggle(this, myDrawerLayout, R.string.drawer_open, R.string.drawer_close){
+
             public void onDrawerOpened(View drawerView){
                 super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle("Navigation");
+                getSupportActionBar().setTitle("BrandRecognizer");
                 invalidateOptionsMenu();
             }
 
@@ -130,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         myToggle.setDrawerIndicatorEnabled(true);
-        myDrawerLayout.setDrawerListener(myToggle);
+        myDrawerLayout.addDrawerListener(myToggle);
     }
 
     @Override
@@ -144,11 +159,6 @@ public class MainActivity extends AppCompatActivity {
         super.onConfigurationChanged(config);
         myToggle.onConfigurationChanged(config);
     }
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu);
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
@@ -165,8 +175,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
+    /*
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_option_tab, menu);
+        return true;
+    }*/
 
 
 

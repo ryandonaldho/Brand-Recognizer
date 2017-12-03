@@ -18,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,8 +58,9 @@ public class HistoryFragment extends Fragment {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser() ;
         String uuid = currentUser.getUid();
         dref= FirebaseDatabase.getInstance().getReference().child("users").child(uuid).child("searches");
+        Query query = dref.limitToLast(10);
         //dref.child("users").child(uuid).child("searches");
-        dref.addChildEventListener(new ChildEventListener() {
+        query.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 list.add(dataSnapshot.getValue(String.class));
@@ -95,7 +97,7 @@ public class HistoryFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String value = (String)adapter.getItem(i);
+                String value = (String)adapter.getItem(i-1);
                 System.out.println(value);
                 Bundle bundle = new Bundle();
                  bundle.putString("brand",value);
