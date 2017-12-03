@@ -25,7 +25,9 @@ import java.util.Collections;
 
 /**
  * A simple {@link Fragment} subclass.
+ * Return a list view of the user past searches
  */
+
 public class HistoryFragment extends Fragment {
 
     DatabaseReference dref;
