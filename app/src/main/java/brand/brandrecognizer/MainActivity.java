@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> myAdapter;
     private ActionBarDrawerToggle myToggle;
     private String title;
-    String [] nav = {"Log out", "History", "Home", "About"};
+    String [] nav = {"Log out", "History", "Home", "About","Popular"};
 
 
     @Override
@@ -102,6 +102,12 @@ public class MainActivity extends AppCompatActivity {
                 else if(nav[3] == (String) parent.getItemAtPosition(position)){
                     // shows about
                     Toast.makeText(MainActivity.this, "This will move you around", Toast.LENGTH_SHORT).show();
+                }
+                else if(nav[4] == (String) parent.getItemAtPosition(position)){
+
+                    PopularFragment popularFragment = new PopularFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,popularFragment).commit();
+
                 }
             }
         });
