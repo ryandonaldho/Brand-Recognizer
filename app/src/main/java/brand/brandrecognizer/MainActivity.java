@@ -36,13 +36,11 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> myAdapter;
     private ActionBarDrawerToggle myToggle;
     private String title;
-<<<<<<< HEAD
+    
     private Context context;
     String [] nav = {"Log out", "History", "Home", "About", "Popular"};
-=======
-    String [] nav = {"Log out", "History", "Home", "About","Popular"};
 
->>>>>>> efbd4814417f860fbe0588b02e278d445afc797f
+
 
 
     @Override
