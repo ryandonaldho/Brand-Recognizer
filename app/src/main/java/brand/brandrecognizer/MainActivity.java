@@ -1,5 +1,6 @@
 package brand.brandrecognizer;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> myAdapter;
     private ActionBarDrawerToggle myToggle;
     private String title;
+    private Context context;
     String [] nav = {"Log out", "History", "Home", "About", "Popular"};
 
 
@@ -144,11 +146,6 @@ public class MainActivity extends AppCompatActivity {
         super.onConfigurationChanged(config);
         myToggle.onConfigurationChanged(config);
     }
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu);
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
@@ -165,11 +162,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /*
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_option_tab, menu);
         return true;
-    }
+    }*/
 
 
 
