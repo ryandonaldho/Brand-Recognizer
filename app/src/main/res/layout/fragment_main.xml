@@ -6,9 +6,6 @@
     android:layout_height="match_parent"
     tools:context="brand.brandrecognizer.MainActivity">
 
-
-
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="300dp"

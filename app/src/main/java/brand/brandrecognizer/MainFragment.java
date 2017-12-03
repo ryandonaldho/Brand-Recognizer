@@ -39,8 +39,11 @@ import com.google.api.services.vision.v1.model.WebDetection;
 import com.google.api.services.vision.v1.model.WebEntity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -70,6 +73,10 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
     ImageView imageView;
 
+    String result;
+
+    DatabaseReference popularRef;
+
    // TextView resultView;
 
     ProgressBar progressBar;
@@ -78,7 +85,12 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     private Feature feature;
     private Feature feature2;
 
-
+    public void temp_logout()
+    {
+        FirebaseAuth.getInstance().signOut();
+        Intent i = new Intent(getContext(), MainMenuActivity.class);
+        startActivity(i);
+    }
 
 
     public MainFragment() {
@@ -116,6 +128,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         takePicture.setOnClickListener(this);
         getGallery.setOnClickListener(this);
         searchImageButton.setOnClickListener(this);
+
 
         return v;
 
@@ -260,7 +273,8 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             }
 
             @Override
-            protected void onPostExecute(String result) {
+            protected void onPostExecute(String resultFromSearch) {
+                result = resultFromSearch;
                 progressBar.setVisibility(View.GONE );
                 Context context = getActivity().getApplicationContext();
                 Toast toast = Toast.makeText(context, result, Toast.LENGTH_LONG);
@@ -273,10 +287,40 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     // put search result into database
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference myRef = database.getReference("users");
+<<<<<<< HEAD
                     //DatabaseReference popularRef = database.getReference()
+=======
+                    popularRef = database.getReference("popular");
+>>>>>>> c2ee29f389e9907809e54706639dc54d49743b3d
                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser() ;
                     String uuid = currentUser.getUid();
                     myRef.child(uuid).child("searches").push().setValue(result);
+
+
+                    DatabaseReference dref = FirebaseDatabase.getInstance().getReference().child("popular");
+
+                    dref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            if (snapshot.hasChild(result)) {
+                                int count = snapshot.child(result).getValue(Integer.class);
+                                popularRef.child(result).setValue(count + 1);
+                            }
+                            else{
+                                popularRef.child(result).setValue(1);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+                  //  popularRef.child(result).setValue(1);
+
+
 
                     Bundle bundle = new Bundle();
                     bundle.putString("brand",result);
