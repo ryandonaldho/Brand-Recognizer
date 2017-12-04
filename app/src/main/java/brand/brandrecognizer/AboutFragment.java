@@ -44,7 +44,7 @@ public class AboutFragment extends Fragment {
     }
 
     public void textRead(){
-        stream = getResources().openRawResource(R.raw.test);
+        stream = getResources().openRawResource(R.raw.about);
         reader = new BufferedReader(new InputStreamReader(stream));
         full = "";
         line = "";
