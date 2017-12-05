@@ -59,10 +59,16 @@ public class   MapFragment extends Fragment implements OnMapReadyCallback {
                 return;
             }
             mMap.setMyLocationEnabled(true);
+            mMap.setPadding(0,120,0,0);
+
             //init();
             //use mMap.getUiSettings().
             //for different options.
         }
+    }
+
+    public void setPadding(View view){
+        mMap.setPadding(0,100, 0, 0);
     }
 
     private static final String TAG = "MapActivity ";
@@ -101,7 +107,6 @@ public class   MapFragment extends Fragment implements OnMapReadyCallback {
         View v = inflater.inflate(R.layout.fragment_map, container, false);
 
         getLocationPermission();
-
 
         return v;
         //init();
