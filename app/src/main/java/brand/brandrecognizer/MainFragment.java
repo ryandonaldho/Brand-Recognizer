@@ -85,6 +85,8 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     private Feature feature;
     private Feature feature2;
 
+    String strippedResult;
+
     public void temp_logout()
     {
         FirebaseAuth.getInstance().signOut();
@@ -291,7 +293,11 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     popularRef = database.getReference("popular");
                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser() ;
                     String uuid = currentUser.getUid();
-                    myRef.child(uuid).child("searches").push().setValue(result);
+
+                    // remove nonalphanumeric to prevent firebase crash
+                    strippedResult = result.replaceAll("[^A-Za-z0-9]", "");
+
+                    myRef.child(uuid).child("searches").push().setValue(strippedResult);
 
 
                     DatabaseReference dref = FirebaseDatabase.getInstance().getReference().child("popular");
@@ -299,12 +305,12 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     dref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
-                            if (snapshot.hasChild(result)) {
-                                int count = snapshot.child(result).getValue(Integer.class);
-                                popularRef.child(result).setValue(count + 1);
+                            if (snapshot.hasChild(strippedResult)) {
+                                int count = snapshot.child(strippedResult).getValue(Integer.class);
+                                popularRef.child(strippedResult).setValue(count + 1);
                             }
                             else{
-                                popularRef.child(result).setValue(1);
+                                popularRef.child(strippedResult).setValue(1);
                             }
                         }
 
